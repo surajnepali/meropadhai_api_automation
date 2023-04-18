@@ -95,21 +95,6 @@ describe('ADMIN', () => {
         expect(response.body.name).to.eq('Biratnagaaar')
       })
     })
-
-    // it('Delete City', () => {
-    //   cy.api({
-    //     method: 'DELETE',
-    //     url: Cypress.env('baseUrl') + '/city/' + cityID,
-    //     headers: {
-    //       Authorization: `Bearer ${token}`
-    //     }
-    //   }).then((response) => {
-    //     expect(response.status).to.eq(200)
-    //     expect(response.body).not.to.have.property('message')
-    //     // expect(response.body.message).to.eq('City deleted successfully')
-    //   })
-    // })
-
   })
 
   describe('Admin University CRUD', () => {
@@ -286,8 +271,6 @@ describe('ADMIN', () => {
       expect(response.body).not.to.have.property('message')
       // expect(response.body.message).to.eq('Teacher deleted successfully')
     })
-  
   })
   )
 })
-

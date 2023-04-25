@@ -175,6 +175,24 @@ describe('City API', () => {
       });
     });
 
+    it("Can't update City with invalid ID", () => {
+      cy.api({
+        method: 'PATCH',
+        url: Cypress.env('baseUrl') + '/city/642010afe8fdad4f9593a2b6',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
+        },
+        body: {
+          name: 'Dharaan',
+        },
+        failOnStatusCode: false,
+      }).then((response) => {
+        expect(response.status).to.eq(404);
+        expect(response.body).to.have.property('message');
+        expect(response.body.message).to.eq('City not found');
+      });
+    })
+
     it("Can't delete City with invalid ID", () => {
       cy.api({
         method: 'DELETE',

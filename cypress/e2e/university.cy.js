@@ -12,7 +12,7 @@ describe('University API', () => {
                 method: 'POST',
                 url: Cypress.env('baseUrl') + '/university',
                 body: {
-                    name: 'Dharan',
+                    name: university,
                     city: Cypress.env('cityId'),
                     address: 'Niva Galli',
                     description: 'This is a test University',
@@ -55,7 +55,7 @@ describe('University API', () => {
                 method: 'PATCH',
                 url: Cypress.env('baseUrl') + '/university/642010afe8fdad4f9593a2b6',
                 body: {
-                    name: 'Dharaan',
+                    name: university,
                 },
                 failOnStatusCode: false
             }).then((response) => {

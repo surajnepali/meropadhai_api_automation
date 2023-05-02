@@ -1,8 +1,10 @@
 /// reference types="cypress" />
 
+import ENDPOINTS from "../Constants/endpoints";
+
 describe('University API', () => {
 
-    let univeristyID;
+    let universityID;
     const university = "Testing University"
 
     describe('Try to access University API without login', () => {
@@ -10,7 +12,7 @@ describe('University API', () => {
         it("Can't post new University without admin Login", () => {
             cy.api({
                 method: 'POST',
-                url: Cypress.env('baseUrl') + '/university',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university,
                 body: {
                     name: university,
                     city: Cypress.env('cityId'),
@@ -29,7 +31,7 @@ describe('University API', () => {
         it("Can't get all Universities without admin Login", () => {
             cy.api({
                 method: 'GET',
-                url: Cypress.env('baseUrl') + '/university',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university,
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
@@ -41,7 +43,7 @@ describe('University API', () => {
         it("Can't get a University by ID without admin Login", () => {
             cy.api({
                 method: 'GET',
-                url: Cypress.env('baseUrl') + '/university/642010afe8fdad4f9593a2b6',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/642010afe8fdad4f9593a2b6',
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
@@ -53,7 +55,7 @@ describe('University API', () => {
         it("Can't edit a University by ID without admin Login", () => {
             cy.api({
                 method: 'PATCH',
-                url: Cypress.env('baseUrl') + '/university/642010afe8fdad4f9593a2b6',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/642010afe8fdad4f9593a2b6',
                 body: {
                     name: university,
                 },
@@ -68,7 +70,7 @@ describe('University API', () => {
         it("Can't delete a University by ID without admin Login", () => {
             cy.api({
                 method: 'DELETE',
-                url: Cypress.env('baseUrl') + '/university/642010afe8fdad4f9593a2b6',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/642010afe8fdad4f9593a2b6',
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
@@ -86,7 +88,7 @@ describe('University API', () => {
         it('Post new University', () => {
             cy.api({
                 method: 'POST',
-                url: Cypress.env('baseUrl') + '/university',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university,
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 },
@@ -105,7 +107,7 @@ describe('University API', () => {
                 expect(response.body).to.have.property('description');
                 expect(response.body).to.have.property('image');
                 expect(response.body.name).to.eq(university);
-                univeristyID = response.body._id;
+                universityID = response.body._id;
             })
 
         })
@@ -113,7 +115,7 @@ describe('University API', () => {
         it("Can't post new University with same name", () => {
             cy.api({
                 method: 'POST',
-                url: Cypress.env('baseUrl') + '/university',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university,
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 },
@@ -135,7 +137,7 @@ describe('University API', () => {
         it('Get all Universities', () => {
             cy.api({
                 method: 'GET',
-                url: Cypress.env('baseUrl') + '/university',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university,
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 }
@@ -143,14 +145,14 @@ describe('University API', () => {
                 expect(response.status).to.eq(200);
                 expect(response.body).to.have.property('docs');
                 expect(response.body.docs).to.be.an('array');
-                expect(response.body.docs[response.body.docs.length - 1]._id).to.eq(univeristyID);
+                expect(response.body.docs[response.body.docs.length - 1]._id).to.eq(universityID);
             })
         })
 
         it('Get a University by ID', () => {
             cy.api({
                 method: 'GET',
-                url: Cypress.env('baseUrl') + '/university/' + univeristyID,
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/'+ universityID,
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 }
@@ -168,7 +170,7 @@ describe('University API', () => {
         it("Can't get a University by ID with wrong ID", () => {
             cy.api({
                 method: 'GET',
-                url: Cypress.env('baseUrl') + '/university/642010afe8fdad4f9593a2b6',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/642010afe8fdad4f9593a2b6',
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 },
@@ -183,7 +185,7 @@ describe('University API', () => {
         it('Edit a University by ID', () => {
             cy.api({
                 method: 'PATCH',
-                url: Cypress.env('baseUrl') + '/university/' + univeristyID,
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/' + universityID,
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 },
@@ -203,7 +205,7 @@ describe('University API', () => {
         it("Can't edit a University by ID with wrong ID", () => {
             cy.api({
                 method: 'PATCH',
-                url: Cypress.env('baseUrl') + '/university/642010afe8fdad4f9593a2b6',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/642010afe8fdad4f9593a2b6',
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 },
@@ -221,7 +223,7 @@ describe('University API', () => {
         it("Can't delete a University by ID with wrong ID", () => {
             cy.api({
                 method: 'DELETE',
-                url: Cypress.env('baseUrl') + '/university/642010afe8fdad4f9593a2b6',
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/642010afe8fdad4f9593a2b6',
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 },
@@ -235,7 +237,7 @@ describe('University API', () => {
         it("Delete a University by ID", () => {
             cy.api({
                 method: 'DELETE',
-                url: Cypress.env('baseUrl') + '/university/' + univeristyID,
+                url: Cypress.env('baseUrl') + ENDPOINTS.university + '/' + universityID,
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 }
@@ -246,5 +248,5 @@ describe('University API', () => {
 
         })
     })
-
+    
 })

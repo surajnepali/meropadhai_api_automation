@@ -99,7 +99,9 @@ describe('University API', () => {
                     description: 'This is a test University',
                     image: Cypress.env('universityImageId'),
                 }
-            }).then((response) => {
+            }).as('addUniversity');
+            
+            cy.get('@addUniversity').then((response) => {
                 expect(response.status).to.eq(201);
                 expect(response.body).to.have.property('name');
                 expect(response.body).to.have.property('city');
@@ -127,7 +129,9 @@ describe('University API', () => {
                     image: Cypress.env('universityImageId'),
                 },
                 failOnStatusCode: false
-            }).then((response) => {
+            }).as('cannotPostWithSameName');
+            
+            cy.get('@cannotPostWithSameName').then((response) => {
                 expect(response.status).to.eq(400);
                 expect(response.body).to.have.property('message');
                 expect(response.body.message).to.eq('University with name ' + university + ' already exists');
@@ -141,7 +145,9 @@ describe('University API', () => {
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 }
-            }).then((response) => {
+            }).as('getAllUniversities');
+            
+            cy.get('@getAllUniversities').then((response) => {
                 expect(response.status).to.eq(200);
                 expect(response.body).to.have.property('docs');
                 expect(response.body.docs).to.be.an('array');
@@ -156,7 +162,9 @@ describe('University API', () => {
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 }
-            }).then((response) => {
+            }).as('getUniversityByID');
+            
+            cy.get('@getUniversityByID').then((response) => {
                 expect(response.status).to.eq(200);
                 expect(response.body).to.have.property('name');
                 expect(response.body).to.have.property('city');
@@ -175,7 +183,9 @@ describe('University API', () => {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 },
                 failOnStatusCode: false
-            }).then((response) => {
+            }).as('cannotGetByInvalidID');
+            
+            cy.get('@cannotGetByInvalidID').then((response) => {
                 expect(response.status).to.eq(404);
                 expect(response.body).to.have.property('message');
                 expect(response.body.message).to.eq('University not found');
@@ -192,7 +202,9 @@ describe('University API', () => {
                 body: {
                     name: 'University Name Updated',
                 }
-            }).then((response) => {
+            }).as('editUniversityByID');
+            
+            cy.get('@editUniversityByID').then((response) => {
                 expect(response.status).to.eq(200);
                 expect(response.body).to.have.property('name');
                 expect(response.body).to.have.property('city');
@@ -213,7 +225,9 @@ describe('University API', () => {
                     name: 'University Name Updated',
                 },
                 failOnStatusCode: false
-            }).then((response) => {
+            }).as('cannotEditByInvalidID');
+            
+            cy.get('@cannotEditByInvalidID').then((response) => {
                 expect(response.status).to.eq(404);
                 expect(response.body).to.have.property('message');
                 expect(response.body.message).to.eq('University not found');
@@ -228,7 +242,9 @@ describe('University API', () => {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 },
                 failOnStatusCode: false
-            }).then((response) => {
+            }).as('cannotDeleteByInvalidID');
+            
+            cy.get('@cannotDeleteByInvalidID').then((response) => {
                 expect(response.status).to.eq(200);
                 expect(response.body).not.to.have.property('message');
             })
@@ -241,12 +257,14 @@ describe('University API', () => {
                 headers: {
                     Authorization: 'Bearer' + localStorage.getItem('adminToken'),
                 }
-            }).then((response) => {
+            }).as('deleteUniversity');
+
+            cy.get('@deleteUniversity').then((response) => {
                 expect(response.status).to.eq(200);
                 expect(response.body).not.to.have.property('message');
             })
 
         })
     })
-    
+
 })

@@ -1,11 +1,13 @@
 ///reference types="cypress" />
 
+import ENDPOINTS from '../Constants/endpoints';
+
 describe('City API', () => {
   describe('Try to access City API without login', () => {
     it("Can't post new City without admin Login", () => {
       cy.api({
         method: 'POST',
-        url: Cypress.env('baseUrl') + '/city',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city,
         body: {
           name: 'Dharan',
         },
@@ -20,7 +22,7 @@ describe('City API', () => {
     it("Can't get all Cities without admin Login", () => {
       cy.api({
         method: 'GET',
-        url: Cypress.env('baseUrl') + '/city',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city,
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401);
@@ -32,7 +34,7 @@ describe('City API', () => {
     it("Can't get a City by ID without admin Login", () => {
       cy.api({
         method: 'GET',
-        url: Cypress.env('baseUrl') + '/city/642010afe8fdad4f9593a2b6',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city + '/642010afe8fdad4f9593a2b6',
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401);
@@ -44,7 +46,7 @@ describe('City API', () => {
     it("Can't edit a City by ID without admin Login", () => {
       cy.api({
         method: 'PATCH',
-        url: Cypress.env('baseUrl') + '/city/642010afe8fdad4f9593a2b6',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city + '/642010afe8fdad4f9593a2b6',
         body: {
           name: 'Dharaan',
         },
@@ -59,7 +61,7 @@ describe('City API', () => {
     it("Can't delete a City by ID without admin Login", () => {
       cy.api({
         method: 'DELETE',
-        url: Cypress.env('baseUrl') + '/city/642010afe8fdad4f9593a2b6',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city + '/642010afe8fdad4f9593a2b6',
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401);
@@ -80,7 +82,7 @@ describe('City API', () => {
     it('Post new City', () => {
       cy.api({
         method: 'POST',
-        url: Cypress.env('baseUrl') + '/city',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city,
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },
@@ -98,7 +100,7 @@ describe('City API', () => {
     it("Can't post another City with same name", () => {
       cy.api({
         method: 'POST',
-        url: Cypress.env('baseUrl') + '/city',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city,
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },
@@ -118,7 +120,7 @@ describe('City API', () => {
     it('Get all Cities', () => {
       cy.api({
         method: 'GET',
-        url: Cypress.env('baseUrl') + '/city',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city,
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },
@@ -131,7 +133,7 @@ describe('City API', () => {
     it('Get City by ID', () => {
       cy.api({
         method: 'GET',
-        url: Cypress.env('baseUrl') + '/city/' + cityID,
+        url: Cypress.env('baseUrl') + ENDPOINTS.city + '/' + cityID,
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },
@@ -146,7 +148,7 @@ describe('City API', () => {
     it("Can't get City by invalid ID", () => {
       cy.api({
         method: 'GET',
-        url: Cypress.env('baseUrl') + '/city/642010afe8fdad4f9593a2b6',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city +'/642010afe8fdad4f9593a2b6',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },
@@ -161,7 +163,7 @@ describe('City API', () => {
     it('Update City', () => {
       cy.api({
         method: 'PATCH',
-        url: Cypress.env('baseUrl') + '/city/' + cityID,
+        url: Cypress.env('baseUrl') + ENDPOINTS.city + '/' + cityID,
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },
@@ -178,7 +180,7 @@ describe('City API', () => {
     it("Can't update City with invalid ID", () => {
       cy.api({
         method: 'PATCH',
-        url: Cypress.env('baseUrl') + '/city/642010afe8fdad4f9593a2b6',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city + '/642010afe8fdad4f9593a2b6',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },
@@ -196,7 +198,7 @@ describe('City API', () => {
     it("Can't delete City with invalid ID", () => {
       cy.api({
         method: 'DELETE',
-        url: Cypress.env('baseUrl') + '/city/642010afe8fdad4f9593a2b6',
+        url: Cypress.env('baseUrl') + ENDPOINTS.city + '/642010afe8fdad4f9593a2b6',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },
@@ -210,7 +212,7 @@ describe('City API', () => {
     it('Delete City', () => {
       cy.api({
         method: 'DELETE',
-        url: Cypress.env('baseUrl') + '/city/' + cityID,
+        url: Cypress.env('baseUrl') + ENDPOINTS.city + '/' + cityID,
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('adminToken'),
         },

@@ -3,3 +3,4 @@ node_modules
 cypress/fixtures/course.pdf
 cypress/fixtures/image.png
 cypress/constants/endpoints.js
+cypress/videos
